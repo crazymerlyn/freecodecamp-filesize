@@ -6,6 +6,8 @@
 'use strict';
 
 var fs = require('fs');
+var multer = require('multer');
+var upload = multer();
 var express = require('express');
 var app = express();
 
@@ -37,6 +39,12 @@ app.route('/')
     .get(function(req, res) {
 		  res.sendFile(process.cwd() + '/views/index.html');
     })
+
+app.post('/getfilesize', upload.single('file'), function(req, res) {
+  res.json({
+    size: req.file.size
+  });
+});
 
 // Respond not found to all the wrong routes
 app.use(function(req, res, next){
